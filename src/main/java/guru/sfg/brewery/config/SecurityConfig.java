@@ -1,5 +1,6 @@
 package guru.sfg.brewery.config;
 
+import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
 import net.bytebuddy.asm.Advice;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,9 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Primary
     PasswordEncoder delegatingPasswordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    @Primary
+    PasswordEncoder sfgDelegatingPasswordEncoder(){
+        return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
@@ -84,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth.inMemoryAuthentication()
                 .withUser("scott")
-                .password("{sha256}c6c254fa13ff693b020cb10d6c1857d80416afd8c793cf606d39b1fa2c973820dc5653a7da8d9503")
+                .password("{bcrypt15}$2b$15$1HpBoTDmPxrhe4zdUlaWoOeNDeq05MnuypQRrRvkgwzTHzELYqg76")
                 .roles("CUSTOMER");
     }
 }

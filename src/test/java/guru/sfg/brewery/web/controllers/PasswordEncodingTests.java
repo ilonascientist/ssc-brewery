@@ -70,4 +70,15 @@ public class PasswordEncodingTests {
 
         assertTrue(encoder.matches(PASSWORD, encoded));
     }
+
+    @Test
+    void testBCrypt15() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder(BCryptPasswordEncoder.BCryptVersion.$2B, 15);
+        String encoded = encoder.encode(PASSWORD);
+        System.out.println(encoded);
+        System.out.println(encoder.encode("tiger"));
+        System.out.println(encoder.encode("test"));
+
+        assertTrue(encoder.matches(PASSWORD, encoded));
+    }
 }
