@@ -28,4 +28,28 @@ class BeerControllerIT extends BaseIT{
                 .andExpect(model().attributeExists("beer"));
     }
 
+    @Test
+    void initCreationForm() throws Exception {
+        mockMvc.perform(get("/beers/new").with(httpBasic("user", "password")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("beers/createBeer"))
+                .andExpect(model().attributeExists("beer"));
+    }
+
+    @Test
+    void initCreationForm2() throws Exception {
+        mockMvc.perform(get("/beers/new").with(httpBasic("spring", "test")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("beers/createBeer"))
+                .andExpect(model().attributeExists("beer"));
+    }
+
+    @Test
+    void initCreationForm3() throws Exception {
+        mockMvc.perform(get("/beers/new").with(httpBasic("admin", "password")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("beers/createBeer"))
+                .andExpect(model().attributeExists("beer"));
+    }
+
 }
