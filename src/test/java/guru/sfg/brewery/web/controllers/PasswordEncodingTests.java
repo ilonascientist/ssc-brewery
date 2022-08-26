@@ -3,6 +3,7 @@ package guru.sfg.brewery.web.controllers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.NoopProcessorErrorHandler;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.input.NoopCharAppender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,6 +52,17 @@ public class PasswordEncodingTests {
     @Test
     void testSha256() {
         PasswordEncoder encoder = new StandardPasswordEncoder();
+        String encoded = encoder.encode(PASSWORD);
+        System.out.println(encoded);
+        System.out.println(encoder.encode("tiger"));
+        System.out.println(encoder.encode("test"));
+
+        assertTrue(encoder.matches(PASSWORD, encoded));
+    }
+
+    @Test
+    void testBCrypt() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
         String encoded = encoder.encode(PASSWORD);
         System.out.println(encoded);
         System.out.println(encoder.encode("tiger"));

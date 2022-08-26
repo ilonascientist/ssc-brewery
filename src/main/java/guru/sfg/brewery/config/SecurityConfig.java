@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,9 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Primary
     PasswordEncoder sha256PasswordEncoder(){
         return new StandardPasswordEncoder();
+    }
+
+    @Bean
+    @Primary
+    PasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -59,20 +65,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Fluent API
         auth.inMemoryAuthentication()
                 .withUser("user")
-                .password("ac65be86bd166abb6046b8b19a063d74ce1b92e444e8a65f89b633562d810f5b931eca90246cfc9d")
+                .password("$2a$10$yBE2oFHVSQM7SkSEwztobembs/A4rNTZjrAKFRQZNC8gk.8Yh7.QK")
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password("ac65be86bd166abb6046b8b19a063d74ce1b92e444e8a65f89b633562d810f5b931eca90246cfc9d")
+                .password("$2a$10$yBE2oFHVSQM7SkSEwztobembs/A4rNTZjrAKFRQZNC8gk.8Yh7.QK")
                 .roles("ADMIN")
                 .and()
                 .withUser("spring")
-                .password("fdd03b9cef23798dec77c67db4c9453b713cecabaa02fb0c51fe176d4c9bcac1ec614df409eb34c9")
+                .password("$2a$10$u0agNec9d.cWWzeIO2w/Z.oGfWrlNd/75QI.WIpL35o.TULsjRHdK")
                 .roles("ADMIN");
 
         auth.inMemoryAuthentication()
                 .withUser("scott")
-                .password("d5e42acee7520dd413ac5f4b930a8f8985f289612484153929b39d9083561495b207d095aa1b6747")
+                .password("$2a$10$TLv0ZJnHt5G/mZKjiK/xq.whClHgn0Yf/BnCv1wF5FPsJDaCvTXne")
                 .roles("CUSTOMER");
     }
 }
