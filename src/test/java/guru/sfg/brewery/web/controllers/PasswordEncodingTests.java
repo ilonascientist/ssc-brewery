@@ -34,4 +34,17 @@ public class PasswordEncodingTests {
 
     }
 
+
+    @Test
+    void testLdap() {
+        PasswordEncoder encoder = new LdapShaPasswordEncoder();
+        String encoded = encoder.encode(PASSWORD);
+        System.out.println(encoded);
+        System.out.println(encoder.encode("tiger"));
+        System.out.println(encoder.encode("test"));
+
+
+        assertTrue(encoder.matches(PASSWORD, encoded));
+    }
+
 }
