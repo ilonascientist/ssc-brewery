@@ -1,21 +1,24 @@
 package guru.sfg.brewery.config;
 
+import net.bytebuddy.asm.Advice;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    PasswordEncoder noOpPasswordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,20 +45,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Fluent API
         auth.inMemoryAuthentication()
                 .withUser("user")
-                .password("{noop}password")
+                .password("password")
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password("{noop}password")
+                .password("password")
                 .roles("ADMIN")
                 .and()
                 .withUser("spring")
-                .password("{noop}test")
+                .password("test")
                 .roles("ADMIN");
 
         auth.inMemoryAuthentication()
                 .withUser("scott")
-                .password("{noop}tiger")
+                .password("tiger")
                 .roles("CUSTOMER");
     }
 }
