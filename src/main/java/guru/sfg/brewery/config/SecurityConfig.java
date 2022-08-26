@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,9 +36,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Primary
     PasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    @Primary
+    PasswordEncoder delegatingPasswordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
@@ -65,20 +71,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Fluent API
         auth.inMemoryAuthentication()
                 .withUser("user")
-                .password("$2a$10$yBE2oFHVSQM7SkSEwztobembs/A4rNTZjrAKFRQZNC8gk.8Yh7.QK")
+                .password("{bcrypt}$2a$10$yBE2oFHVSQM7SkSEwztobembs/A4rNTZjrAKFRQZNC8gk.8Yh7.QK")
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password("$2a$10$yBE2oFHVSQM7SkSEwztobembs/A4rNTZjrAKFRQZNC8gk.8Yh7.QK")
+                .password("{bcrypt}$2a$10$yBE2oFHVSQM7SkSEwztobembs/A4rNTZjrAKFRQZNC8gk.8Yh7.QK")
                 .roles("ADMIN")
                 .and()
                 .withUser("spring")
-                .password("$2a$10$u0agNec9d.cWWzeIO2w/Z.oGfWrlNd/75QI.WIpL35o.TULsjRHdK")
+                .password("{ldap}{SSHA}Pi3sbRoa6dBvXE76+vY3T/Lb6WnvGITxzf/v7Q==")
                 .roles("ADMIN");
 
         auth.inMemoryAuthentication()
                 .withUser("scott")
-                .password("$2a$10$TLv0ZJnHt5G/mZKjiK/xq.whClHgn0Yf/BnCv1wF5FPsJDaCvTXne")
+                .password("{sha256}c6c254fa13ff693b020cb10d6c1857d80416afd8c793cf606d39b1fa2c973820dc5653a7da8d9503")
                 .roles("CUSTOMER");
     }
 }
