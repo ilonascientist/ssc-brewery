@@ -6,6 +6,7 @@ import org.junit.jupiter.params.shadow.com.univocity.parsers.common.input.NoopCh
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.util.DigestUtils;
 
 import javax.naming.ldap.LdapContext;
@@ -47,4 +48,14 @@ public class PasswordEncodingTests {
         assertTrue(encoder.matches(PASSWORD, encoded));
     }
 
+    @Test
+    void testSha256() {
+        PasswordEncoder encoder = new StandardPasswordEncoder();
+        String encoded = encoder.encode(PASSWORD);
+        System.out.println(encoded);
+        System.out.println(encoder.encode("tiger"));
+        System.out.println(encoder.encode("test"));
+
+        assertTrue(encoder.matches(PASSWORD, encoded));
+    }
 }

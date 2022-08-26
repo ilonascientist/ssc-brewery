@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -23,9 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Primary
     PasswordEncoder ldapPasswordEncoder(){
         return new LdapShaPasswordEncoder();
+    }
+
+    @Bean
+    @Primary
+    PasswordEncoder sha256PasswordEncoder(){
+        return new StandardPasswordEncoder();
     }
 
     @Override
@@ -53,20 +59,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Fluent API
         auth.inMemoryAuthentication()
                 .withUser("user")
-                .password("{SSHA}Fx82TXmvL1r5Dtd00AzZ9X2RiUFMyQMt4GWTOA==")
+                .password("ac65be86bd166abb6046b8b19a063d74ce1b92e444e8a65f89b633562d810f5b931eca90246cfc9d")
                 .roles("USER")
                 .and()
                 .withUser("admin")
-                .password("{SSHA}Fx82TXmvL1r5Dtd00AzZ9X2RiUFMyQMt4GWTOA==")
+                .password("ac65be86bd166abb6046b8b19a063d74ce1b92e444e8a65f89b633562d810f5b931eca90246cfc9d")
                 .roles("ADMIN")
                 .and()
                 .withUser("spring")
-                .password("{SSHA}NSQkB2CSMDDmI3EJ16sdy5+PFuDi1ogPD2kHnA==")
+                .password("fdd03b9cef23798dec77c67db4c9453b713cecabaa02fb0c51fe176d4c9bcac1ec614df409eb34c9")
                 .roles("ADMIN");
 
         auth.inMemoryAuthentication()
                 .withUser("scott")
-                .password("{SSHA}r0gw4AVSSLjVuTGVeKVtvf/UMYvJPeJwoOa2Ww==")
+                .password("d5e42acee7520dd413ac5f4b930a8f8985f289612484153929b39d9083561495b207d095aa1b6747")
                 .roles("CUSTOMER");
     }
 }
