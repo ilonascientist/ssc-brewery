@@ -13,6 +13,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class BeerRestControllerIT extends BaseIT {
 
     @Test
+    void deleteBeerUrl() throws Exception {
+        mockMvc.perform(delete("/api/v1/beer/123e4567-e89b-12d3-a456-426614174000")
+                        .param("apiKey", "spring")
+                        .param("apiSecret", "test"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteBeerUrlBadCreds() throws Exception {
+        mockMvc.perform(delete("/api/v1/beer/123e4567-e89b-12d3-a456-426614174000")
+                        .param("apiKey", "spring")
+                        .param("apiSecret", "testXXX"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void deleteBeerTest() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/123e4567-e89b-12d3-a456-426614174000")
                         .header("Api-Key", "spring")

@@ -32,7 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-
+    public RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager manager){
+        RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/api/**"));
+        filter.setAuthenticationManager(manager);
+        return filter;
+    }
 
     @Bean
     PasswordEncoder sfgDelegatingPasswordEncoder(){
@@ -44,7 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
                 UsernamePasswordAuthenticationFilter.class)
-                .csrf().disable();
+                .csrf().disable(); //it is global
+
+        http.addFilterBefore(restUrlAuthFilter(authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class);
 
 
         http.authorizeRequests(
