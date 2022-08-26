@@ -3,6 +3,8 @@ package guru.sfg.brewery.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -36,18 +38,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("password")
-                .roles("ADMIN").build();
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //Fluent API
+        auth.inMemoryAuthentication()
+                .withUser("user")
+                .password("{noop}password")
+                .roles("USER")
+                .and()
+                .withUser("admin")
+                .password("{noop}password")
+                .roles("ADMIN")
+                .and()
+                .withUser("spring")
+                .password("{noop}test")
+                .roles("ADMIN");
 
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER").build();
-
-        return new InMemoryUserDetailsManager(admin, user);
+        auth.inMemoryAuthentication()
+                .withUser("scott")
+                .password("{noop}tiger")
+                .roles("CUSTOMER");
     }
 }
