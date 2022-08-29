@@ -1,5 +1,6 @@
 package guru.sfg.brewery.web.controllers;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.NoopProcessorErrorHandler;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.input.NoopCharAppender;
@@ -15,7 +16,8 @@ import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PasswordEncodingTests {
+@Disabled
+class PasswordEncodingTests {
 
     static final String PASSWORD = "password";
 

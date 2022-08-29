@@ -1,6 +1,8 @@
 package guru.sfg.brewery.web.controllers;
 
+import guru.sfg.brewery.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,6 +13,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 class BeerControllerIT extends BaseIT{
+
+    @Autowired
+    BeerRepository beerRepository;
 
     @Test
     void findBeersTest() throws Exception {
@@ -39,14 +44,6 @@ class BeerControllerIT extends BaseIT{
     @Test
     void initCreationForm2() throws Exception {
         mockMvc.perform(get("/beers/new").with(httpBasic("spring", "test")))
-                .andExpect(status().isOk())
-                .andExpect(view().name("beers/createBeer"))
-                .andExpect(model().attributeExists("beer"));
-    }
-
-    @Test
-    void initCreationForm3() throws Exception {
-        mockMvc.perform(get("/beers/new").with(httpBasic("admin", "password")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/createBeer"))
                 .andExpect(model().attributeExists("beer"));
