@@ -1,12 +1,35 @@
 package guru.sfg.brewery.web.controllers;
 
+import guru.sfg.brewery.repositories.BeerInventoryRepository;
+import guru.sfg.brewery.repositories.BeerRepository;
+import guru.sfg.brewery.repositories.CustomerRepository;
+import guru.sfg.brewery.services.BeerService;
+import guru.sfg.brewery.services.BreweryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-public class IndexControllerIT extends BaseIT{
+class IndexControllerIT extends BaseIT{
+
+    @MockBean
+    public BeerRepository beerRepository;
+
+    @MockBean
+    public BeerInventoryRepository beerInventoryRepository;
+
+    @MockBean
+    public CustomerRepository customerRepository;
+
+    @MockBean
+    public BeerService beerService;
+
+    @MockBean
+    public BreweryService breweryService;
 
     @Test
     void testGetIndexSlash() throws Exception {

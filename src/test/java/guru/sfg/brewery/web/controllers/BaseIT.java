@@ -20,22 +20,6 @@ public abstract class BaseIT {
     public WebApplicationContext was;
 
     public MockMvc mockMvc;
-
-    @MockBean
-    public BeerRepository beerRepository;
-
-    @MockBean
-    public BeerInventoryRepository beerInventoryRepository;
-
-    @MockBean
-    public CustomerRepository customerRepository;
-
-    @MockBean
-    public BeerService beerService;
-
-    @MockBean
-    public BreweryService breweryService;
-
     @BeforeEach
     void setUp(){
         mockMvc = MockMvcBuilders
