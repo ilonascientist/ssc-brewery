@@ -3,7 +3,9 @@ package guru.sfg.brewery.domain.security;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -21,11 +23,11 @@ public class User {
     private String password;
 
     @Singular
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "user_authority",
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")} )
-    private Set<Authority> authorities;
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")} )
+    private Set<Role> roles;
 
     @Builder.Default
     private Boolean accountNonExpired = true;
@@ -39,4 +41,13 @@ public class User {
     @Builder.Default
     private Boolean enabled = true;
 
+    @Transient //Non persistent
+    private Set<Authority> authorities;
+
+    public Set<Authority> getAuthorities() {
+        return this.roles.stream()
+                .map(Role::getAuthorities)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+    }
 }
