@@ -16,18 +16,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class CustomerControllerIT extends BaseIT{
 
-    @ParameterizedTest(name = "[{index}] with [{arguments}]")
-    @MethodSource("getStreamAdminCustomer")
-    void testListCustomersAuth(String username, String password) throws Exception {
+    @Test
+    void testListCustomersAdminAuth() throws Exception {
         mockMvc.perform(get("/customers")
-                .with(httpBasic(username, password)))
+                .with(httpBasic("spring", "test")))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void testListCustomersNoAuth() throws Exception {
+    void testListCustomersCustomerAuth() throws Exception {
         mockMvc.perform(get("/customers")
-                        .with(httpBasic("user", "password")))
+                        .with(httpBasic("scott", "tiger")))
                 .andExpect(status().isForbidden());
     }
 
