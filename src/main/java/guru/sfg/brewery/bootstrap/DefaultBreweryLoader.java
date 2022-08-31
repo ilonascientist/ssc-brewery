@@ -62,7 +62,6 @@ public class DefaultBreweryLoader implements CommandLineRunner {
     private final BeerOrderRepository beerOrderRepository;
     private final CustomerRepository customerRepository;
     private final AuthorityRepository authorityRepository;
-
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
